@@ -66,7 +66,6 @@ func (r Repository) insertUser(email string, password string, username string) (
 		"_id":      i,
 		"email":    email,
 		"username": username,
-		"password": password,
 	})
 	tokenString, err := token.SignedString([]byte(os.Getenv("JWT_SECRET")))
 	if err != nil {
@@ -101,7 +100,6 @@ func (r Repository) checkLogin(email string, password string) (interface{}, bool
 		"_id":      user.Id,
 		"email":    user.Email,
 		"username": user.Username,
-		"password": user.Password,
 	})
 	tokenString, err := token.SignedString([]byte(os.Getenv("JWT_SECRET")))
 	if err != nil {

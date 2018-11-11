@@ -54,6 +54,6 @@ func (c *Controller) Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	result, _ := c.Repository.insertUser(r.FormValue("email"), r.FormValue("password"), r.FormValue("username"))
-	utils.Respond(w, result, http.StatusOK)
+	utils.Respond(w, result, http.StatusCreated)
 	return
 }
