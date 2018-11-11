@@ -9,27 +9,15 @@ var AuthController = &Auth.Controller{}
 
 var routes = models.Routes{
 	models.Route{
+		"login",
+		"Post",
+		"/api/v1/auth/login",
+		AuthController.Login,
+	},
+	models.Route{
 		"register",
 		"POST",
 		"/api/v1/auth/register",
 		AuthController.Register,
 	},
-	//utils.Route{
-	//	"TodoIndex",
-	//	"GET",
-	//	"/todos",
-	//	TodoIndex,
-	//},
-	//utils.Route{
-	//	"TodoCreate",
-	//	"POST",
-	//	"/todos",
-	//	TodoCreate,
-	//},
-	//utils.Route{
-	//	"TodoShow",
-	//	"GET",
-	//	"/todos/{todoId}",
-	//	TodoShow,
-	//},
 }

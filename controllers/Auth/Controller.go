@@ -11,16 +11,19 @@ type Controller struct {
 	Repository Repository
 }
 
-//func (c *Controller) Login(w http.ResponseWriter, r *http.Request) {
-//	products := c.Repository.checkLogin() // list of all products
-//	// log.Println(products)
-//	data, _ := json.Marshal(products)
-//	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-//	w.Header().Set("Access-Control-Allow-Origin", "*")
-//	w.WriteHeader(http.StatusOK)
-//	w.Write(data)
-//	return
-//}
+func (c *Controller) Login(w http.ResponseWriter, r *http.Request) {
+	if !strings.Contains(r.FormValue("email"), "@") {
+		utils.Respond(w, "email address is required", 401)
+		return
+	}
+	if len(r.FormValue("password")) < 6 {
+		utils.Respond(w, "password is required", 401)
+		return
+	}
+	checkLogin := c.Repository.checkLogin(r.FormValue("email"), r.FormValue("password"))
+	utils.Respond(w, checkLogin, 200)
+	return
+}
 
 func (c *Controller) Register(w http.ResponseWriter, r *http.Request) {
 
