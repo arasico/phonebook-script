@@ -36,4 +36,10 @@ var routes = models.Routes{
 		"/api/v1/contact",
 		middleware.AuthenticationMiddleware(ContactController.Index),
 	},
+	models.Route{
+		"indexContact",
+		"Get",
+		"/api/v1/contact/{id}",
+		middleware.AuthenticationMiddleware(ContactController.Show),
+	},
 }

@@ -2,6 +2,7 @@ package Contact
 
 import (
 	"github.com/gorilla/context"
+	"github.com/gorilla/mux"
 	"net/http"
 	"phonebook-script/utils"
 )
@@ -13,6 +14,13 @@ type Controller struct {
 
 func (c *Controller) Index(w http.ResponseWriter, r *http.Request) {
 	result := c.Repository.getContact(context.Get(r, "id").(string))
+	utils.Respond(w, result, http.StatusOK)
+	return
+}
+func (c *Controller) Show(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id := vars["id"] // param id
+	result := c.Repository.getContactOne(context.Get(r, "id").(string), id)
 	utils.Respond(w, result, http.StatusOK)
 	return
 }

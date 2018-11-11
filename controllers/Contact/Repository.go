@@ -51,3 +51,13 @@ func (r Repository) getContact(userId string) interface{} {
 	session.DB(DBNAME).C(COLLECTION + userId).Find(nil).All(&result)
 	return result
 }
+func (r Repository) getContactOne(userId string, id string) interface{} {
+	session, err := mgo.Dial(os.Getenv("MONGO_HOST"))
+	if err != nil {
+		fmt.Println("Failed to establish connection to Mongo server:", err)
+	}
+	defer session.Close()
+	var result interface{}
+	session.DB(DBNAME).C(COLLECTION + userId).FindId(bson.ObjectIdHex(id)).One(&result)
+	return result
+}
