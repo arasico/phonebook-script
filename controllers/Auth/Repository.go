@@ -18,6 +18,7 @@ type loginUser struct {
 	Id            bson.ObjectId `json:"id"        bson:"_id,omitempty"`
 	Email         string        `json:"email"`
 	Username      string        `json:"username"`
+	Password      string        `json:"password"`
 	Authorization string        `json:"authorization"`
 }
 
@@ -81,12 +82,12 @@ func (r Repository) insertUser(email string, password string, username string) (
 	user["_id"] = i
 	user["email"] = email
 	user["username"] = username
+	user["password"] = password
 	user["authorization"] = tokenString
-	fmt.Println("Added New user => ", email)
 	return user, true
 }
 
-func (r Repository) checkLogin(email string, password string) interface{} {
+func (r Repository) checkLogin(email string, password string) (interface{}, bool) {
 	session, err := mgo.Dial(os.Getenv("MONGO_HOST"))
 	if err != nil {
 		fmt.Println("Failed to establish connection to Mongo server:", err)
@@ -94,6 +95,9 @@ func (r Repository) checkLogin(email string, password string) interface{} {
 	defer session.Close()
 	var user loginUser
 	session.DB(DBNAME).C(COLLECTION).Find(bson.M{"email": email}).One(&user)
+	if err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)); err != nil {
+		return user, false
+	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"_id":      user.Id,
 		"email":    user.Email,
@@ -104,5 +108,5 @@ func (r Repository) checkLogin(email string, password string) interface{} {
 		fmt.Println(err)
 	}
 	user.Authorization = tokenString
-	return user
+	return user, true
 }
