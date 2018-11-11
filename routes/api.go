@@ -25,9 +25,15 @@ var routes = models.Routes{
 		AuthController.Register,
 	},
 	models.Route{
-		"addContact",
+		"storeContact",
 		"POST",
 		"/api/v1/contact",
 		middleware.AuthenticationMiddleware(ContactController.Store),
+	},
+	models.Route{
+		"indexContact",
+		"Get",
+		"/api/v1/contact",
+		middleware.AuthenticationMiddleware(ContactController.Index),
 	},
 }

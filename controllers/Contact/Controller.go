@@ -11,6 +11,12 @@ type Controller struct {
 	Repository Repository
 }
 
+func (c *Controller) Index(w http.ResponseWriter, r *http.Request) {
+	result := c.Repository.getContact(context.Get(r, "id").(string))
+	utils.Respond(w, result, http.StatusOK)
+	return
+}
+
 func (c *Controller) Store(w http.ResponseWriter, r *http.Request) {
 	if r.FormValue("name") == "" {
 		utils.Respond(w, "name is required", http.StatusBadRequest)
@@ -31,7 +37,7 @@ func (c *Controller) Store(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
-	c.Repository.insertContact(r, photo)
+	c.Repository.insertContact(r, photo, context.Get(r, "id").(string))
 	utils.Respond(w, "success", http.StatusOK)
 	return
 }

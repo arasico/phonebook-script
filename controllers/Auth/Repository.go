@@ -56,7 +56,7 @@ func (r Repository) insertUser(email string, password string, username string) (
 	defer session.Close()
 	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	i := bson.NewObjectId()
-	session.DB(DBNAME).C(COLLECTION).Insert(bson.M{"_id": i, "email": email, "username": username, "password": string(hashedPassword), "created_at": time.Now().Unix()})
+	session.DB(DBNAME).C(COLLECTION).Insert(bson.M{"_id": i, "email": email, "username": username, "password": string(hashedPassword), "created_at": time.Now().UnixNano()})
 	user := make(map[string]interface{})
 	if err != nil {
 		log.Fatal(err)
