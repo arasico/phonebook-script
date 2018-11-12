@@ -37,9 +37,21 @@ var routes = models.Routes{
 		middleware.AuthenticationMiddleware(ContactController.Index),
 	},
 	models.Route{
-		"indexContact",
-		"Get",
+		"indexContactOne",
+		"GET",
 		"/api/v1/contact/{id}",
 		middleware.AuthenticationMiddleware(ContactController.Show),
+	},
+	models.Route{
+		"updateContact",
+		"POST",
+		"/api/v1/contact/update/{id}",
+		middleware.AuthenticationMiddleware(ContactController.Update),
+	},
+	models.Route{
+		"deleteContact",
+		"DELETE",
+		"/api/v1/contact/{id}",
+		middleware.AuthenticationMiddleware(ContactController.Destroy),
 	},
 }
