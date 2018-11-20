@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-docker image build -t yaser/phonebook-go .
-docker image push yaser/phonebook-go
+docker image build -t yaserdarzi/phonebookgo .
+docker image push yaserdarzi/phonebookgo
